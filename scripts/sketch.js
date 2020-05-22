@@ -9,7 +9,7 @@ let RING_SIZE
 
 let width = window.innerWidth / 2
 let height = window.innerHeight / 2
-let minRed, maxRed, minGreen, maxGreen, minBlue, maxBLue
+let minRed, maxRed, minGreen, maxGreen, minBlue, maxBlue
 const toggleBtn = document.getElementById('toggle')
 const fastForwardBtn = document.getElementById('fastForward')
 toggleBtn.addEventListener('click', () => {
@@ -98,7 +98,7 @@ function draw() {
     if (minBlue && maxBlue) {
       blue = fft.getEnergy(minBlue, maxBlue)
     } else {
-      blue = fft.getEnergy('treble')
+      blue = fft.getEnergy('highMid')
     }
 
     stroke(red, green, blue)
