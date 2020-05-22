@@ -47,7 +47,7 @@ const setSourceFromFile = (file) => {
   fReader.onloadend = function (event) {
     rawMusicFile = event.target.result
     tune = new p5.SoundFile(event.target.result, () => {
-      RING_SIZE = 300000 / tune.buffer.length
+      RING_SIZE = (300000 / tune.buffer.length) * (height / 250)
       strokeWeight(RING_SIZE)
       toggleBtn.disabled = false
       fastForwardBtn.disabled = false
@@ -76,7 +76,7 @@ function setup() {
   colorMode('RGB')
   background(255)
   noFill()
-
+  console.log(height)
   fft = new p5.FFT(0.8, 64)
 }
 
