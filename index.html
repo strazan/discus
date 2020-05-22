@@ -19,7 +19,16 @@
         <div id="canvas"></div>
 
         <div class="panel">
-            <button id="toggle">Play/pause</button>
+            <button id="toggle">Play</button>
+            <button class="clear" onclick="clearDiscus()">Clear</button>
+            <button id="fastForward" onclick="fastForward()">Fast Forward</button>
+
+            <label class="file">
+                <input type="file" id="file" aria-label="File browser example" />
+                <span class="fileCustom" id="fileLabel">Choose file...</span>
+            </label>
+
+
             <div class="rgb">
                 <div class="titles">
                     <h2>Red</h2>
@@ -35,6 +44,13 @@
                     <input id="maxBlue" type="text">
                 </div>
 
+            </div>
+            <!-- <input type="range"> -->
+            <!-- <iframe src="https://editor.p5js.org/strazan/embed/r0nrTl340"></iframe> -->
+            <div class="saveBtns">
+
+                <button class="save" id="saveSVG" onclick="saveImage(`svg`)">Save as svg</button>
+                <button class="save" id="savePNG" onclick="saveImage(`png`)">Save as png</button>
             </div>
         </div>
     </div>
