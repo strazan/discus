@@ -134,64 +134,64 @@ function drawDiscus(colors, ringSize) {
   //   }
   // }
 
-  // if (minRed && maxRed && minGreen && maxGreen && minBlue && maxBlue) {
-  //   let step = 22000 / 32
+  if (minRed && maxRed && minGreen && maxGreen && minBlue && maxBlue) {
+    let step = 22000 / 32
 
-  //   for (let i = 0; i < colors.length; i += 5) {
-  //     let red = 0,
-  //       green = 0,
-  //       blue = 0,
-  //       redCount = 0,
-  //       greenCount = 0,
-  //       blueCount = 0
+    for (let i = 0; i < colors.length; i += 5) {
+      let red = 0,
+        green = 0,
+        blue = 0,
+        redCount = 0,
+        greenCount = 0,
+        blueCount = 0
 
-  //     for (let sb = 0; sb < colors[i].length; sb++) {
-  //       let freq = colors[i][sb] * step
-  //       if (freq >= minRed && freq <= maxRed) {
-  //         red += colors[i][sb]
-  //         redCount++
-  //       }
-  //       if (freq >= minGreen && freq <= maxGreen) {
-  //         green += colors[i][sb]
-  //         greenCount++
-  //       }
-  //       if (freq >= minBlue && freq <= maxBlue) {
-  //         blue += colors[i][sb]
-  //         blueCount++
-  //       }
-  //     }
-  //     red = red ? red / redCount : 0
-  //     green = green ? green / greenCount : 0
-  //     blue = blue ? blue / blueCount : 0
-  //     stroke(red, green, blue)
-  //     ellipse(height / 2, height / 2, distance)
-  //     distance += ringSize
-  //   }
-  // } else {
-  for (let i = 0; i < colors.length; i += 5) {
-    let red = 0,
-      green = 0,
-      blue = 0
-
-    for (let sb = 0; sb < colors[i].length; sb++) {
-      if (sb < 10) {
-        red += colors[i][sb]
-      } else if (sb >= 10 && sb < 20) {
-        green += colors[i][sb]
-      } else {
-        blue += colors[i][sb]
+      for (let sb = 0; sb < colors[i].length; sb++) {
+        let freq = sb * step
+        if (freq >= minRed && freq <= maxRed) {
+          red += colors[i][sb]
+          redCount++
+        }
+        if (freq >= minGreen && freq <= maxGreen) {
+          green += colors[i][sb]
+          greenCount++
+        }
+        if (freq >= minBlue && freq <= maxBlue) {
+          blue += colors[i][sb]
+          blueCount++
+        }
       }
+      red = red ? red / redCount : 0
+      green = green ? green / greenCount : 0
+      blue = blue ? blue / blueCount : 0
+      stroke(red, green, blue)
+      ellipse(height / 2, height / 2, distance)
+      distance += ringSize
     }
+  } else {
+    for (let i = 0; i < colors.length; i += 5) {
+      let red = 0,
+        green = 0,
+        blue = 0
 
-    red = red ? red / 10 : 0
-    green = green ? green / 10 : 0
-    blue = blue ? blue / 11 : 0
-    stroke(red, green, blue)
-    ellipse(height / 2, height / 2, distance)
-    distance += ringSize
+      for (let sb = 0; sb < colors[i].length; sb++) {
+        if (sb < 10) {
+          red += colors[i][sb]
+        } else if (sb >= 10 && sb < 20) {
+          green += colors[i][sb]
+        } else {
+          blue += colors[i][sb]
+        }
+      }
+
+      red = red ? red / 10 : 0
+      green = green ? green / 10 : 0
+      blue = blue ? blue / 11 : 0
+      stroke(red, green, blue)
+      ellipse(height / 2, height / 2, distance)
+      distance += ringSize
+    }
   }
 }
-// }
 
 function fastForward() {
   let s = new Audio(rawMusicFile)
