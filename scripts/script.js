@@ -16,28 +16,29 @@ function fastRender(url, duration, ringSize, callback) {
         const data = new Uint8Array(analyser.frequencyBinCount)
         analyser.getByteFrequencyData(data)
         // Do something with data
-        let red = 0,
-          green = 0,
-          blue = 0
 
-        for (i = 0; i < data.length; i++) {
-          if (i < 10) {
-            red += data[i]
-            // console.log(data[i])
-          } else if (i >= 10 && i < 20) {
-            green += data[i]
-          } else {
-            blue += data[i]
-          }
-        }
-        // console.log(red)
-        colors.push({
-          red: red ? red / 10 : 0,
-          green: green ? green / 10 : 0,
-          blue: blue ? blue / 11 : 0,
-        })
-        // console.log()
+        // let red = 0,
+        //   green = 0,
+        //   blue = 0
 
+        // for (i = 0; i < data.length; i++) {
+        //   if (i < 10) {
+        //     red += data[i]
+
+        //   } else if (i >= 10 && i < 20) {
+        //     green += data[i]
+        //   } else {
+        //     blue += data[i]
+        //   }
+        // }
+
+        // colors.push({
+        //   red: red ? red / 10 : 0,
+        //   green: green ? green / 10 : 0,
+        //   blue: blue ? blue / 11 : 0,
+        // })
+
+        colors.push(data)
         if (context.currentTime <= source.buffer.duration) {
           context.suspend(context.currentTime + 0.01).then(() => {
             step()
@@ -47,8 +48,6 @@ function fastRender(url, duration, ringSize, callback) {
       }
       step()
       context.startRendering().then(() => {
-        console.log('complete')
-
         callback(colors, ringSize)
       })
     })

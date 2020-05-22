@@ -47,7 +47,8 @@ const setSourceFromFile = (file) => {
   fReader.onloadend = function (event) {
     rawMusicFile = event.target.result
     tune = new p5.SoundFile(event.target.result, () => {
-      RING_SIZE = 1000000 / tune.buffer.length
+      RING_SIZE = 300000 / tune.buffer.length
+      strokeWeight(RING_SIZE)
       toggleBtn.disabled = false
       fastForwardBtn.disabled = false
     })
@@ -68,29 +69,21 @@ const toggleSound = () => {
     tune.play()
   }
 }
-function preload() {
-  // tune = loadSound('../cantkeepitin.mp3')
-  // rawMusicFile = '../cantkeepitin.mp3'
-  // tune.setVolume(0.1)
-}
+
 function setup() {
   let c = createCanvas(width, height, SVG)
-
   document.getElementById('canvas').appendChild(c.elt.wrapper)
   colorMode('RGB')
-
   background(255)
-  // tune.play()
-  // tune.loop()
   noFill()
-  RING_SIZE = 3000000 / tune.buffer.length
-  strokeWeight(RING_SIZE)
-  fft = new p5.FFT(0.8, 32)
+
+  fft = new p5.FFT(0.8, 64)
 }
 
 function draw() {
   let spectrum = fft.analyze()
-  if (tune.isPlaying() && count >= 6) {
+
+  if (tune && tune.isPlaying() && count >= 6) {
     let red, green, blue
     if (minRed && maxRed) {
       red = fft.getEnergy(minRed, maxRed)
@@ -112,7 +105,6 @@ function draw() {
 
     ellipse(height / 2, height / 2, r)
     r += RING_SIZE
-
     count = 0
 
     // for (let i = 0; i < spectrum.length; i++) {
@@ -121,11 +113,9 @@ function draw() {
     //   strokeWeight(3)
     //   line(height + i, height - 400, height + i, height - 400 + y)
     // }
-  } else if (tune.isPlaying) {
+  } else if (tune && tune.isPlaying()) {
     count++
   }
-
-  // stroke(0)
 }
 
 function clearDiscus() {
@@ -136,24 +126,76 @@ function drawDiscus(colors, ringSize) {
   clearDiscus()
   let distance = ringSize
   strokeWeight(ringSize)
+
+  //   for (let i = 0; i < colors.length; i += 5) {
+  //     stroke(colors[i].red, colors[i].green, colors[i].blue)
+  //     ellipse(height / 2, height / 2, distance)
+  //     distance += ringSize
+  //   }
+  // }
+
+  // if (minRed && maxRed && minGreen && maxGreen && minBlue && maxBlue) {
+  //   let step = 22000 / 32
+
+  //   for (let i = 0; i < colors.length; i += 5) {
+  //     let red = 0,
+  //       green = 0,
+  //       blue = 0,
+  //       redCount = 0,
+  //       greenCount = 0,
+  //       blueCount = 0
+
+  //     for (let sb = 0; sb < colors[i].length; sb++) {
+  //       let freq = colors[i][sb] * step
+  //       if (freq >= minRed && freq <= maxRed) {
+  //         red += colors[i][sb]
+  //         redCount++
+  //       }
+  //       if (freq >= minGreen && freq <= maxGreen) {
+  //         green += colors[i][sb]
+  //         greenCount++
+  //       }
+  //       if (freq >= minBlue && freq <= maxBlue) {
+  //         blue += colors[i][sb]
+  //         blueCount++
+  //       }
+  //     }
+  //     red = red ? red / redCount : 0
+  //     green = green ? green / greenCount : 0
+  //     blue = blue ? blue / blueCount : 0
+  //     stroke(red, green, blue)
+  //     ellipse(height / 2, height / 2, distance)
+  //     distance += ringSize
+  //   }
+  // } else {
   for (let i = 0; i < colors.length; i += 5) {
-    stroke(colors[i].red, colors[i].green, colors[i].blue)
+    let red = 0,
+      green = 0,
+      blue = 0
+
+    for (let sb = 0; sb < colors[i].length; sb++) {
+      if (sb < 10) {
+        red += colors[i][sb]
+      } else if (sb >= 10 && sb < 20) {
+        green += colors[i][sb]
+      } else {
+        blue += colors[i][sb]
+      }
+    }
+
+    red = red ? red / 10 : 0
+    green = green ? green / 10 : 0
+    blue = blue ? blue / 11 : 0
+    stroke(red, green, blue)
     ellipse(height / 2, height / 2, distance)
     distance += ringSize
-
-    // console.log(colors[i])
   }
-
-  // stroke(0)
-  console.log('done')
-  // line(100, 200, 200, 200)
 }
+// }
 
 function fastForward() {
   let s = new Audio(rawMusicFile)
   s.addEventListener('loadedmetadata', async () => {
-    // const colors = await
-    console.log(RING_SIZE)
     fastRender(rawMusicFile, s.duration, RING_SIZE, drawDiscus)
   })
 }
